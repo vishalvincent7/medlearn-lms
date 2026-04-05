@@ -1,0 +1,1987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedLearn Pro - Healthcare Training Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0A4D68;
+            --primary-light: #088395;
+            --accent: #05BFDB;
+            --success: #00C9A7;
+            --warning: #FFB84D;
+            --danger: #FF6B6B;
+            --bg-main: #F8FAFB;
+            --bg-card: #FFFFFF;
+            --text-primary: #1A2332;
+            --text-secondary: #5A6C7D;
+            --border: #E1E8ED;
+            --shadow: rgba(10, 77, 104, 0.08);
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Login Screen */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M0 50c13.807 0 25-11.193 25-25S13.807 0 0 0v50zm100 50c-13.807 0-25-11.193-25-25s11.193-25 25-25v50z' fill='rgba(255,255,255,0.03)'/%3E%3C/svg%3E") repeat;
+        }
+
+        .login-box {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.95rem;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            width: auto;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+            width: auto;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+            width: auto;
+        }
+
+        .demo-users {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-main);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .demo-users h4 {
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .demo-user {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+            background: white;
+        }
+
+        .demo-user:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .demo-user strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Main App */
+        .app-container {
+            display: none;
+        }
+
+        .app-container.active {
+            display: block;
+        }
+
+        .header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav a:hover, .nav a.active {
+            color: var(--primary);
+        }
+
+        .nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            text-align: right;
+            margin-right: 0.5rem;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-company {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .session-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-main);
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .session-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M0 50c13.807 0 25-11.193 25-25S13.807 0 0 0v50zm100 50c-13.807 0-25-11.193-25-25s11.193-25 25-25v50z' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E") repeat;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            max-width: 600px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            color: var(--success);
+            margin-top: 0.25rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .course-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .course-card.locked {
+            opacity: 0.7;
+        }
+
+        .course-card:hover:not(.locked) {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px var(--shadow);
+        }
+
+        .course-image {
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30z' fill='rgba(255,255,255,0.1)'/%3E%3C/svg%3E") repeat;
+        }
+
+        .course-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.95);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .course-price-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--success);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .lock-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+
+        .course-content {
+            padding: 1.5rem;
+        }
+
+        .course-category {
+            color: var(--accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .course-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .progress-container {
+            flex: 1;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.25rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 16px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            flex: 1;
+        }
+
+        .close-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-main);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+
+        .close-btn:hover {
+            background: var(--border);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .lesson-list {
+            list-style: none;
+        }
+
+        .lesson-item {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lesson-item:hover {
+            background: var(--bg-main);
+            border-color: var(--accent);
+        }
+
+        .lesson-item.completed {
+            background: rgba(0, 201, 167, 0.05);
+            border-color: var(--success);
+        }
+
+        .lesson-info {
+            flex: 1;
+        }
+
+        .lesson-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .lesson-duration {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .lesson-status {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        .lesson-status.completed {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .quiz-section {
+            background: var(--bg-main);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+        }
+
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .quiz-option {
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--bg-card);
+        }
+
+        .quiz-option:hover {
+            border-color: var(--accent);
+            background: rgba(5, 191, 219, 0.05);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--primary);
+            background: rgba(10, 77, 104, 0.05);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--success);
+            background: rgba(0, 201, 167, 0.1);
+        }
+
+        .quiz-option.incorrect {
+            border-color: var(--danger);
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .admin-dashboard {
+            display: none;
+        }
+
+        .admin-dashboard.active {
+            display: block;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-secondary);
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .admin-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-family: 'DM Serif Display', serif;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-main);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        tr:hover {
+            background: var(--bg-main);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(0, 201, 167, 0.1);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(255, 184, 77, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-primary {
+            background: rgba(10, 77, 104, 0.1);
+            color: var(--primary);
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: rgba(5, 191, 219, 0.1);
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+
+        .alert-success {
+            background: rgba(0, 201, 167, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .nav a {
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .session-indicator {
+                display: none;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginContainer" class="login-container">
+        <div class="login-box">
+            <div class="login-logo">
+                <div class="login-logo-icon">ML</div>
+                <h1 class="login-title">MedLearn Pro</h1>
+                <p class="login-subtitle">Healthcare Training Platform</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="your.email@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="loginBtn">
+                    <span id="loginBtnText">Sign In</span>
+                </button>
+            </form>
+
+            <div class="demo-users">
+                <h4>Demo Accounts (Click to Login)</h4>
+                <div class="demo-user" onclick="quickLogin('student')">
+                    <strong>👨‍⚕️ Student</strong>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Email: student@omega.com | Pass: demo123</div>
+                </div>
+                <div class="demo-user" onclick="quickLogin('admin')">
+                    <strong>👨‍💼 Admin</strong>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Email: admin@medlearn.com | Pass: admin123</div>
+                </div>
+                <div class="demo-user" onclick="quickLogin('manager')">
+                    <strong>👩‍💼 HR Manager</strong>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Email: hr@omega.com | Pass: manager123</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="appContainer" class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">ML</div>
+                    MedLearn Pro
+                </div>
+                <nav class="nav">
+                    <a href="#" class="active" data-view="courses">Courses</a>
+                    <a href="#" data-view="my-learning">My Learning</a>
+                    <a href="#" data-view="admin" id="adminNav" style="display:none;">Admin</a>
+                </nav>
+                <div class="user-menu">
+                    <div class="session-indicator">
+                        <span class="session-dot"></span>
+                        <span id="sessionTime">00:00:00</span>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">User</div>
+                        <div class="user-company" id="userCompany">Company</div>
+                    </div>
+                    <div class="user-avatar" id="userAvatar" onclick="toggleUserMenu()">U</div>
+                    <button class="btn btn-secondary" onclick="logout()" style="margin-left: 1rem;">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="hero-content">
+                    <h1 id="heroTitle">Welcome back!</h1>
+                    <p id="heroSubtitle">Continue your healthcare training journey with our comprehensive certification programs.</p>
+                </div>
+            </div>
+
+            <!-- Stats Dashboard -->
+            <div class="stats" id="statsSection">
+                <!-- Stats will be populated by JavaScript -->
+            </div>
+
+            <!-- Courses View -->
+            <div id="coursesView">
+                <div class="section-header">
+                    <h2 class="section-title">Available Courses</h2>
+                </div>
+                <div class="courses-grid" id="coursesGrid">
+                    <!-- Courses will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- My Learning View -->
+            <div id="myLearningView" style="display: none;">
+                <div class="section-header">
+                    <h2 class="section-title">My Learning Progress</h2>
+                </div>
+                <div class="courses-grid" id="myCoursesGrid">
+                    <!-- User's enrolled courses will be shown here -->
+                </div>
+            </div>
+
+            <!-- Admin Dashboard -->
+            <div id="adminView" class="admin-dashboard">
+                <div class="section-header">
+                    <h2 class="section-title">Admin Dashboard</h2>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab active" data-tab="billing">Billing & Usage</button>
+                    <button class="tab" data-tab="users">User Management</button>
+                    <button class="tab" data-tab="courses-admin">Course Management</button>
+                    <button class="tab" data-tab="analytics">Analytics</button>
+                </div>
+
+                <!-- Billing Tab -->
+                <div id="billing" class="tab-content active">
+                    <div class="alert alert-info">
+                        <strong>💰 Login-Based Billing</strong> - Track active sessions and bill clients per user login
+                    </div>
+
+                    <div class="admin-grid">
+                        <div class="admin-card">
+                            <h3>Active Sessions</h3>
+                            <div class="stat-value" id="activeSessions">0</div>
+                            <div class="stat-change">Users currently online</div>
+                        </div>
+                        <div class="admin-card">
+                            <h3>Total Logins (This Month)</h3>
+                            <div class="stat-value" id="totalLogins">0</div>
+                            <div class="stat-change">Billable sessions</div>
+                        </div>
+                        <div class="admin-card">
+                            <h3>Revenue (This Month)</h3>
+                            <div class="stat-value" id="monthRevenue">$0</div>
+                            <div class="stat-change">Based on login billing</div>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3>Company Login Activity</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Subscription Type</th>
+                                        <th>Total Logins</th>
+                                        <th>Active Users</th>
+                                        <th>Monthly Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="companyBillingTable">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Tab -->
+                <div id="users" class="tab-content">
+                    <div class="admin-card">
+                        <h3>Active Users</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Company</th>
+                                        <th>Status</th>
+                                        <th>Session Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTable">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Courses Admin Tab -->
+                <div id="courses-admin" class="tab-content">
+                    <div class="admin-card">
+                        <h3>Create New Course</h3>
+                        <form id="courseForm">
+                            <div class="form-group">
+                                <label class="form-label">Course Title</label>
+                                <input type="text" class="form-input" id="courseTitle" placeholder="e.g., HIPAA Compliance Training" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" id="courseCategory">
+                                    <option>Patient Safety</option>
+                                    <option>Compliance & Regulations</option>
+                                    <option>Clinical Skills</option>
+                                    <option>Emergency Response</option>
+                                    <option>Medical Technology</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Pricing Model</label>
+                                <select class="form-select" id="coursePricing">
+                                    <option value="subscription">Included in Subscription</option>
+                                    <option value="onetime">One-Time Purchase ($99)</option>
+                                    <option value="onetime-premium">One-Time Premium ($199)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-textarea" id="courseDescription" placeholder="Course description..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Course</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analytics" class="tab-content">
+                    <div class="admin-grid">
+                        <div class="admin-card">
+                            <h3>Revenue Breakdown</h3>
+                            <div style="margin-top: 1rem;">
+                                <div style="margin-bottom: 0.5rem;">
+                                    <strong>Subscriptions:</strong> <span style="color: var(--success);">$12,400</span>
+                                </div>
+                                <div style="margin-bottom: 0.5rem;">
+                                    <strong>À la carte courses:</strong> <span style="color: var(--accent);">$3,850</span>
+                                </div>
+                                <div style="margin-bottom: 0.5rem;">
+                                    <strong>Total Revenue:</strong> <span style="color: var(--primary); font-size: 1.2rem;">$16,250</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="admin-card">
+                            <h3>Course Completions</h3>
+                            <div class="stat-value">1,847</div>
+                            <div class="stat-change">This quarter</div>
+                        </div>
+                        <div class="admin-card">
+                            <h3>Active Companies</h3>
+                            <div class="stat-value">23</div>
+                            <div class="stat-change">Paying subscribers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Modal -->
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Course Title</h3>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="purchaseSection" style="display: none;">
+                    <div class="alert alert-info">
+                        <strong>🔒 À La Carte Course</strong><br>
+                        This course requires a one-time purchase of <strong id="coursePrice">$99</strong>.
+                    </div>
+                    <button class="btn btn-success" onclick="purchaseCourse()">Purchase Course</button>
+                    <hr style="margin: 2rem 0;">
+                </div>
+
+                <p id="modalDescription" style="margin-bottom: 2rem; color: var(--text-secondary);"></p>
+                
+                <h4 style="margin-bottom: 1rem; color: var(--primary);">Course Curriculum</h4>
+                <ul class="lesson-list" id="lessonList"></ul>
+
+                <div class="quiz-section" id="quizSection" style="display: none;">
+                    <h4 style="margin-bottom: 1rem; color: var(--primary);">Quiz Assessment</h4>
+                    <div id="quizContainer"></div>
+                    <button class="btn btn-primary" onclick="submitQuiz()" id="submitQuizBtn">Submit Quiz</button>
+                </div>
+
+                <button class="btn btn-primary" style="margin-top: 1rem;" onclick="startCourse()" id="startCourseBtn">Start Learning</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================
+        // DATA MODELS & STATE
+        // ========================
+
+        // User database (simulated - would be in real database)
+        const users = {
+            'student@omega.com': {
+                id: '1',
+                name: 'Dr. Sarah Johnson',
+                email: 'student@omega.com',
+                password: 'demo123',
+                role: 'student',
+                company: 'Omega Healthcare',
+                companyId: 'omega',
+                enrolledCourses: [1, 2, 4],
+                purchasedCourses: [],
+                loginCount: 45,
+                lastLogin: null
+            },
+            'admin@medlearn.com': {
+                id: '2',
+                name: 'Admin User',
+                email: 'admin@medlearn.com',
+                password: 'admin123',
+                role: 'admin',
+                company: 'MedLearn Pro',
+                companyId: 'medlearn',
+                enrolledCourses: [1, 2, 3, 4, 5, 6],
+                purchasedCourses: [],
+                loginCount: 128,
+                lastLogin: null
+            },
+            'hr@omega.com': {
+                id: '3',
+                name: 'Jennifer Martinez',
+                email: 'hr@omega.com',
+                password: 'manager123',
+                role: 'manager',
+                company: 'Omega Healthcare',
+                companyId: 'omega',
+                enrolledCourses: [1, 2, 3],
+                purchasedCourses: [5],
+                loginCount: 23,
+                lastLogin: null
+            }
+        };
+
+        // Company/Client database
+        const companies = {
+            'omega': {
+                name: 'Omega Healthcare',
+                subscriptionType: 'Enterprise',
+                monthlyCost: 5000,
+                pricePerLogin: 2.50,
+                activeUsers: 0,
+                totalLogins: 156
+            },
+            'medlearn': {
+                name: 'MedLearn Pro (Internal)',
+                subscriptionType: 'Admin',
+                monthlyCost: 0,
+                pricePerLogin: 0,
+                activeUsers: 0,
+                totalLogins: 43
+            }
+        };
+
+        // Course database with pricing models
+        const courses = [
+            {
+                id: 1,
+                title: "HIPAA Compliance & Privacy",
+                category: "Compliance & Regulations",
+                description: "Comprehensive training on HIPAA regulations, patient privacy, and data security requirements for healthcare professionals.",
+                lessons: 12,
+                duration: "8 hours",
+                progress: 0,
+                badge: "Required",
+                pricingModel: "subscription", // or "onetime"
+                price: 0,
+                lessons_detail: [
+                    { title: "Introduction to HIPAA", duration: "30 min", completed: false },
+                    { title: "Privacy Rule Overview", duration: "45 min", completed: false },
+                    { title: "Security Standards", duration: "40 min", completed: false },
+                    { title: "Breach Notification", duration: "35 min", completed: false }
+                ],
+                quiz: [
+                    {
+                        question: "What does HIPAA stand for?",
+                        options: [
+                            "Health Insurance Portability and Accountability Act",
+                            "Healthcare Information Privacy and Access Act",
+                            "Hospital Information Protection Act",
+                            "Health Insurance Privacy Act"
+                        ],
+                        correct: 0
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Patient Safety Fundamentals",
+                category: "Patient Safety",
+                description: "Essential protocols and best practices for maintaining patient safety in healthcare settings, including error prevention and reporting.",
+                lessons: 10,
+                duration: "6 hours",
+                progress: 0,
+                badge: "Popular",
+                pricingModel: "subscription",
+                price: 0,
+                lessons_detail: [
+                    { title: "Patient Safety Culture", duration: "25 min", completed: false },
+                    { title: "Medication Safety", duration: "40 min", completed: false },
+                    { title: "Infection Control", duration: "35 min", completed: false },
+                    { title: "Fall Prevention", duration: "30 min", completed: false }
+                ],
+                quiz: []
+            },
+            {
+                id: 3,
+                title: "Advanced Cardiac Life Support",
+                category: "Emergency Response",
+                description: "Comprehensive ACLS certification course with hands-on scenarios and emergency protocols.",
+                lessons: 15,
+                duration: "12 hours",
+                progress: 0,
+                badge: "Premium",
+                pricingModel: "onetime",
+                price: 199,
+                lessons_detail: [
+                    { title: "Emergency Assessment", duration: "30 min", completed: false },
+                    { title: "CPR Techniques", duration: "50 min", completed: false },
+                    { title: "AED Operation", duration: "25 min", completed: false },
+                    { title: "Emergency Medications", duration: "45 min", completed: false }
+                ],
+                quiz: []
+            },
+            {
+                id: 4,
+                title: "Electronic Health Records (EHR)",
+                category: "Medical Technology",
+                description: "Master the use of electronic health record systems, documentation standards, and digital workflow optimization.",
+                lessons: 8,
+                duration: "5 hours",
+                progress: 0,
+                badge: "New",
+                pricingModel: "subscription",
+                price: 0,
+                lessons_detail: [
+                    { title: "EHR Navigation", duration: "30 min", completed: false },
+                    { title: "Documentation Best Practices", duration: "40 min", completed: false },
+                    { title: "Data Entry & Accuracy", duration: "35 min", completed: false },
+                    { title: "Reporting & Analytics", duration: "45 min", completed: false }
+                ],
+                quiz: []
+            },
+            {
+                id: 5,
+                title: "Infection Control Specialist Certification",
+                category: "Clinical Skills",
+                description: "Advanced certification for infection control specialists with evidence-based strategies and regulatory compliance.",
+                lessons: 20,
+                duration: "16 hours",
+                progress: 0,
+                badge: "Certification",
+                pricingModel: "onetime",
+                price: 299,
+                lessons_detail: [
+                    { title: "Hand Hygiene Protocols", duration: "20 min", completed: false },
+                    { title: "PPE Usage", duration: "30 min", completed: false },
+                    { title: "Isolation Procedures", duration: "35 min", completed: false },
+                    { title: "Sterilization Techniques", duration: "40 min", completed: false }
+                ],
+                quiz: []
+            },
+            {
+                id: 6,
+                title: "Cultural Competency in Healthcare",
+                category: "Patient Safety",
+                description: "Develop skills for providing culturally sensitive care and communicating effectively with diverse patient populations.",
+                lessons: 7,
+                duration: "4 hours",
+                progress: 0,
+                badge: "Trending",
+                pricingModel: "onetime",
+                price: 99,
+                lessons_detail: [
+                    { title: "Understanding Cultural Diversity", duration: "30 min", completed: false },
+                    { title: "Language Barriers", duration: "25 min", completed: false },
+                    { title: "Religious Considerations", duration: "30 min", completed: false },
+                    { title: "Health Literacy", duration: "35 min", completed: false }
+                ],
+                quiz: []
+            }
+        ];
+
+        // Current session state
+        let currentUser = null;
+        let currentCourse = null;
+        let quizAnswers = {};
+        let sessionStartTime = null;
+        let sessionTimer = null;
+        let activeSessions = new Map(); // Track all active sessions
+
+        // ========================
+        // AUTHENTICATION
+        // ========================
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            await handleLogin(email, password);
+        });
+
+        function quickLogin(userType) {
+            const credentials = {
+                'student': { email: 'student@omega.com', password: 'demo123' },
+                'admin': { email: 'admin@medlearn.com', password: 'admin123' },
+                'manager': { email: 'hr@omega.com', password: 'manager123' }
+            };
+            
+            const creds = credentials[userType];
+            document.getElementById('loginEmail').value = creds.email;
+            document.getElementById('loginPassword').value = creds.password;
+            handleLogin(creds.email, creds.password);
+        }
+
+        async function handleLogin(email, password) {
+            const btn = document.getElementById('loginBtn');
+            const btnText = document.getElementById('loginBtnText');
+            
+            btn.disabled = true;
+            btnText.innerHTML = '<span class="loading"></span> Signing in...';
+
+            // Simulate API call delay
+            await new Promise(resolve => setTimeout(resolve, 800));
+
+            const user = users[email];
+            
+            if (user && user.password === password) {
+                // Track login
+                user.loginCount++;
+                user.lastLogin = new Date();
+                companies[user.companyId].activeUsers++;
+                companies[user.companyId].totalLogins++;
+                
+                // Create session
+                currentUser = user;
+                sessionStartTime = Date.now();
+                
+                // Add to active sessions
+                activeSessions.set(user.id, {
+                    userId: user.id,
+                    name: user.name,
+                    email: user.email,
+                    company: user.company,
+                    startTime: sessionStartTime
+                });
+                
+                // Start session timer
+                startSessionTimer();
+                
+                // Show app
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('appContainer').classList.add('active');
+                
+                // Initialize UI for this user
+                initializeApp();
+            } else {
+                alert('Invalid email or password');
+                btn.disabled = false;
+                btnText.textContent = 'Sign In';
+            }
+        }
+
+        function logout() {
+            if (currentUser) {
+                // Remove from active sessions
+                activeSessions.delete(currentUser.id);
+                companies[currentUser.companyId].activeUsers--;
+                
+                // Stop session timer
+                if (sessionTimer) {
+                    clearInterval(sessionTimer);
+                }
+            }
+            
+            currentUser = null;
+            sessionStartTime = null;
+            
+            document.getElementById('appContainer').classList.remove('active');
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // ========================
+        // SESSION MANAGEMENT
+        // ========================
+
+        function startSessionTimer() {
+            sessionTimer = setInterval(() => {
+                const elapsed = Date.now() - sessionStartTime;
+                const hours = Math.floor(elapsed / 3600000);
+                const minutes = Math.floor((elapsed % 3600000) / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                
+                document.getElementById('sessionTime').textContent = 
+                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // ========================
+        // APP INITIALIZATION
+        // ========================
+
+        function initializeApp() {
+            // Set user info in header
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userCompany').textContent = currentUser.company;
+            document.getElementById('userAvatar').textContent = currentUser.name.split(' ').map(n => n[0]).join('');
+            
+            // Update hero
+            document.getElementById('heroTitle').textContent = `Welcome back, ${currentUser.name.split(' ')[0]}!`;
+            
+            // Show admin nav if admin
+            if (currentUser.role === 'admin' || currentUser.role === 'manager') {
+                document.getElementById('adminNav').style.display = 'block';
+            }
+            
+            // Render stats
+            renderStats();
+            
+            // Render courses
+            renderCourses();
+            
+            // If admin, update admin dashboard
+            if (currentUser.role === 'admin') {
+                updateAdminDashboard();
+            }
+        }
+
+        function renderStats() {
+            const enrolled = currentUser.enrolledCourses.length + currentUser.purchasedCourses.length;
+            const completed = courses.filter(c => 
+                (currentUser.enrolledCourses.includes(c.id) || currentUser.purchasedCourses.includes(c.id)) 
+                && c.progress === 100
+            ).length;
+            
+            const statsHTML = `
+                <div class="stat-card">
+                    <div class="stat-label">Courses Enrolled</div>
+                    <div class="stat-value">${enrolled}</div>
+                    <div class="stat-change">Active learning</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Completed</div>
+                    <div class="stat-value">${completed}</div>
+                    <div class="stat-change">Certifications earned</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Session Time</div>
+                    <div class="stat-value" id="sessionHours">0h</div>
+                    <div class="stat-change">Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Logins</div>
+                    <div class="stat-value">${currentUser.loginCount}</div>
+                    <div class="stat-change">All time</div>
+                </div>
+            `;
+            
+            document.getElementById('statsSection').innerHTML = statsHTML;
+        }
+
+        function renderCourses() {
+            const grid = document.getElementById('coursesGrid');
+            
+            grid.innerHTML = courses.map(course => {
+                const hasAccess = currentUser.enrolledCourses.includes(course.id) || 
+                                  currentUser.purchasedCourses.includes(course.id) ||
+                                  course.pricingModel === 'subscription';
+                
+                const isLocked = !hasAccess && course.pricingModel === 'onetime';
+                
+                return `
+                    <div class="course-card ${isLocked ? 'locked' : ''}" onclick="openCourse(${course.id})">
+                        ${isLocked ? '<div class="lock-overlay">🔒</div>' : ''}
+                        <div class="course-image">
+                            ${course.pricingModel === 'onetime' ? 
+                                `<span class="course-price-badge">$${course.price}</span>` : 
+                                '<span class="course-price-badge">Subscription</span>'}
+                            <span class="course-badge">${course.badge}</span>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">${course.category}</div>
+                            <h3 class="course-title">${course.title}</h3>
+                            <p class="course-description">${course.description}</p>
+                            <div class="course-meta">
+                                <span style="font-size: 0.85rem; color: var(--text-secondary);">📚 ${course.lessons} lessons • ⏱ ${course.duration}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ========================
+        // COURSE MODAL
+        // ========================
+
+        function openCourse(courseId) {
+            currentCourse = courses.find(c => c.id === courseId);
+            const modal = document.getElementById('courseModal');
+            
+            document.getElementById('modalTitle').textContent = currentCourse.title;
+            document.getElementById('modalDescription').textContent = currentCourse.description;
+            
+            // Check if user has access
+            const hasAccess = currentUser.enrolledCourses.includes(currentCourse.id) || 
+                              currentUser.purchasedCourses.includes(currentCourse.id) ||
+                              currentCourse.pricingModel === 'subscription';
+            
+            // Show/hide purchase section
+            const purchaseSection = document.getElementById('purchaseSection');
+            const startBtn = document.getElementById('startCourseBtn');
+            
+            if (!hasAccess && currentCourse.pricingModel === 'onetime') {
+                purchaseSection.style.display = 'block';
+                document.getElementById('coursePrice').textContent = `$${currentCourse.price}`;
+                startBtn.style.display = 'none';
+            } else {
+                purchaseSection.style.display = 'none';
+                startBtn.style.display = 'block';
+            }
+            
+            // Render lessons
+            const lessonList = document.getElementById('lessonList');
+            lessonList.innerHTML = currentCourse.lessons_detail.map((lesson, index) => `
+                <li class="lesson-item ${lesson.completed ? 'completed' : ''}">
+                    <div class="lesson-info">
+                        <div class="lesson-title">${index + 1}. ${lesson.title}</div>
+                        <div class="lesson-duration">⏱ ${lesson.duration}</div>
+                    </div>
+                    <div class="lesson-status ${lesson.completed ? 'completed' : ''}">
+                        ${lesson.completed ? '✓' : ''}
+                    </div>
+                </li>
+            `).join('');
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('courseModal').classList.remove('active');
+            document.getElementById('quizSection').style.display = 'none';
+            currentCourse = null;
+            quizAnswers = {};
+        }
+
+        function purchaseCourse() {
+            if (confirm(`Purchase "${currentCourse.title}" for $${currentCourse.price}?`)) {
+                currentUser.purchasedCourses.push(currentCourse.id);
+                alert('Course purchased successfully! You now have lifetime access.');
+                closeModal();
+                renderCourses();
+                openCourse(currentCourse.id);
+            }
+        }
+
+        function startCourse() {
+            if (currentCourse && currentCourse.quiz.length > 0) {
+                document.getElementById('quizSection').style.display = 'block';
+                renderQuiz();
+            } else {
+                alert('Course content would load here. In a full implementation, this would show video lessons, documents, and interactive content.');
+            }
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = currentCourse.quiz.map((q, qIndex) => `
+                <div class="quiz-question">
+                    <div class="question-text">${qIndex + 1}. ${q.question}</div>
+                    <div class="quiz-options">
+                        ${q.options.map((option, oIndex) => `
+                            <div class="quiz-option" onclick="selectAnswer(${qIndex}, ${oIndex})">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectAnswer(questionIndex, optionIndex) {
+            quizAnswers[questionIndex] = optionIndex;
+            
+            const question = document.querySelectorAll('.quiz-question')[questionIndex];
+            const options = question.querySelectorAll('.quiz-option');
+            options.forEach((opt, idx) => {
+                opt.classList.remove('selected');
+                if (idx === optionIndex) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function submitQuiz() {
+            let correct = 0;
+            currentCourse.quiz.forEach((q, index) => {
+                const question = document.querySelectorAll('.quiz-question')[index];
+                const options = question.querySelectorAll('.quiz-option');
+                
+                options.forEach((opt, optIndex) => {
+                    if (optIndex === q.correct) {
+                        opt.classList.add('correct');
+                    }
+                    if (quizAnswers[index] === optIndex && optIndex !== q.correct) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+
+                if (quizAnswers[index] === q.correct) {
+                    correct++;
+                }
+            });
+
+            const score = Math.round((correct / currentCourse.quiz.length) * 100);
+            document.getElementById('submitQuizBtn').style.display = 'none';
+            
+            setTimeout(() => {
+                alert(`Quiz completed! Your score: ${score}%\n${correct} out of ${currentCourse.quiz.length} correct.`);
+            }, 500);
+        }
+
+        // ========================
+        // ADMIN DASHBOARD
+        // ========================
+
+        function updateAdminDashboard() {
+            // Active sessions
+            document.getElementById('activeSessions').textContent = activeSessions.size;
+            
+            // Total logins this month
+            const totalLogins = Object.values(companies).reduce((sum, c) => sum + c.totalLogins, 0);
+            document.getElementById('totalLogins').textContent = totalLogins;
+            
+            // Revenue calculation (login-based + subscriptions)
+            let totalRevenue = 0;
+            Object.values(companies).forEach(company => {
+                totalRevenue += company.monthlyCost;
+                totalRevenue += company.totalLogins * company.pricePerLogin;
+            });
+            document.getElementById('monthRevenue').textContent = `$${totalRevenue.toLocaleString()}`;
+            
+            // Company billing table
+            const billingTable = document.getElementById('companyBillingTable');
+            billingTable.innerHTML = Object.entries(companies).map(([id, company]) => `
+                <tr>
+                    <td><strong>${company.name}</strong></td>
+                    <td><span class="badge badge-primary">${company.subscriptionType}</span></td>
+                    <td>${company.totalLogins}</td>
+                    <td><span class="badge badge-success">${company.activeUsers} online</span></td>
+                    <td><strong>$${(company.monthlyCost + (company.totalLogins * company.pricePerLogin)).toLocaleString()}</strong></td>
+                </tr>
+            `).join('');
+            
+            // Users table
+            const usersTable = document.getElementById('usersTable');
+            usersTable.innerHTML = Array.from(activeSessions.values()).map(session => {
+                const elapsed = Date.now() - session.startTime;
+                const minutes = Math.floor(elapsed / 60000);
+                return `
+                    <tr>
+                        <td><strong>${session.name}</strong></td>
+                        <td>${session.email}</td>
+                        <td>${session.company}</td>
+                        <td><span class="badge badge-success">Active</span></td>
+                        <td>${minutes} min</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ========================
+        // VIEW NAVIGATION
+        // ========================
+
+        document.querySelectorAll('[data-view]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const view = e.target.dataset.view;
+                
+                // Update active nav
+                document.querySelectorAll('[data-view]').forEach(l => l.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // Show/hide views
+                document.getElementById('coursesView').style.display = 'none';
+                document.getElementById('myLearningView').style.display = 'none';
+                document.getElementById('adminView').classList.remove('active');
+                
+                if (view === 'courses') {
+                    document.getElementById('coursesView').style.display = 'block';
+                } else if (view === 'my-learning') {
+                    document.getElementById('myLearningView').style.display = 'block';
+                    renderMyLearning();
+                } else if (view === 'admin') {
+                    document.getElementById('adminView').classList.add('active');
+                    updateAdminDashboard();
+                }
+            });
+        });
+
+        function renderMyLearning() {
+            const myCoursesGrid = document.getElementById('myCoursesGrid');
+            const myCourses = courses.filter(c => 
+                currentUser.enrolledCourses.includes(c.id) || currentUser.purchasedCourses.includes(c.id)
+            );
+            
+            if (myCourses.length === 0) {
+                myCoursesGrid.innerHTML = '<div class="alert alert-info">You haven\'t enrolled in any courses yet. Browse the course catalog to get started!</div>';
+            } else {
+                myCoursesGrid.innerHTML = myCourses.map(course => `
+                    <div class="course-card" onclick="openCourse(${course.id})">
+                        <div class="course-image">
+                            <span class="course-badge">${course.badge}</span>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">${course.category}</div>
+                            <h3 class="course-title">${course.title}</h3>
+                            <p class="course-description">${course.description}</p>
+                            <div class="course-meta">
+                                <div class="progress-container">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: ${course.progress}%"></div>
+                                    </div>
+                                    <div class="progress-text">${course.progress}% complete</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // ========================
+        // TAB SWITCHING
+        // ========================
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.tab;
+                
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+                
+                if (tabId === 'billing' && currentUser.role === 'admin') {
+                    updateAdminDashboard();
+                }
+            });
+        });
+
+        // ========================
+        // COURSE FORM SUBMISSION
+        // ========================
+
+        document.getElementById('courseForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const newCourse = {
+                id: courses.length + 1,
+                title: document.getElementById('courseTitle').value,
+                category: document.getElementById('courseCategory').value,
+                description: document.getElementById('courseDescription').value,
+                lessons: 10,
+                duration: "8 hours",
+                progress: 0,
+                badge: "New",
+                pricingModel: document.getElementById('coursePricing').value.includes('onetime') ? 'onetime' : 'subscription',
+                price: document.getElementById('coursePricing').value.includes('premium') ? 199 : 
+                       document.getElementById('coursePricing').value.includes('onetime') ? 99 : 0,
+                lessons_detail: [
+                    { title: "Introduction", duration: "30 min", completed: false },
+                    { title: "Core Concepts", duration: "45 min", completed: false }
+                ],
+                quiz: []
+            };
+            
+            courses.push(newCourse);
+            alert('Course created successfully!');
+            e.target.reset();
+            renderCourses();
+        });
+
+        // Update admin dashboard every 10 seconds if admin is logged in
+        setInterval(() => {
+            if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'manager')) {
+                const activeView = document.querySelector('.tab.active');
+                if (activeView && activeView.dataset.tab === 'billing') {
+                    updateAdminDashboard();
+                }
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
