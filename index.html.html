@@ -1983,5 +1983,15 @@
             }
         }, 10000);
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+const supabaseUrl = "https://xiczpuowucmtqhyhdqjm.supabase.co";
+const supabaseKey = "sb_publishable_gkMDBxm9CJHQORLzHC36Eg_2VrI3nSM";
+
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+console.log("Supabase connected:", supabaseClient);
+</script>
 </body>
 </html>
