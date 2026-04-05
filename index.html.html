@@ -2029,8 +2029,37 @@ async function loginUser() {
 </script>
 </body>
     
-    <div style="position:fixed; top:10px; right:10px;">
-  <button onclick="signUpUser()">Sign Up</button>
-  <button onclick="loginUser()">Login</button>
+    <div style="
+  position:fixed;
+  top:15px;
+  right:20px;
+  display:flex;
+  gap:10px;
+  z-index:1000;
+">
+
+  <button onclick="signUpUser()" style="
+    padding:8px 14px;
+    border:none;
+    background:#4CAF50;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:500;
+  ">
+    Sign Up
+  </button>
+
+  <button onclick="loginUser()" style="
+    padding:8px 14px;
+    border:1px solid #4CAF50;
+    background:white;
+    color:#4CAF50;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:500;
+  ">
+    Login
+  </button>
 </div>
 </html>
